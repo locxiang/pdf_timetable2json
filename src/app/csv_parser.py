@@ -9,6 +9,13 @@ class CSVParser:
     """CSV表格解析器"""
     
     WEEKDAYS = ['星期一', '星期二', '星期三', '星期四', '星期五']
+    WEEKDAY_EN_MAP = {
+        '星期一': 'monday',
+        '星期二': 'tuesday',
+        '星期三': 'wednesday',
+        '星期四': 'thursday',
+        '星期五': 'friday'
+    }
     
     @staticmethod
     def parse_to_json(csv_path: str) -> Optional[Dict[str, Any]]:
@@ -124,7 +131,7 @@ class CSVParser:
                 period_data = CSVParser._parse_cell(cell_value, period)
                 if period_data:
                     schedule[weekday].append(period_data)
-                    logger.debug(f"    第{period}节: {period_data['课程']} - {period_data.get('教师', '无')}")
+                    logger.debug(f"    第{period}节: {period_data['course']} - {period_data.get('teacher', '无')}")
                     period += 1
                     
                     if period > 9:  # 每天最多9节课
@@ -140,18 +147,18 @@ class CSVParser:
         # 特殊活动
         if '班会' in cell_value:
             return {
-                '课时': period,
-                '课程': '班会',
-                '教师': None,
-                '班主任': False
+                'period': period,
+                'course': '班会',
+                'teacher': None,
+                'is_class_teacher': False
             }
         
         if '阳光体育' in cell_value:
             return {
-                '课时': period,
-                '课程': '阳光体育',
-                '教师': None,
-                '班主任': False
+                'period': period,
+                'course': '阳光体育',
+                'teacher': None,
+                'is_class_teacher': False
             }
         
         # 解析课程和教师（用换行符分隔）
@@ -169,10 +176,10 @@ class CSVParser:
             is_class_teacher = True
         
         return {
-            '课时': period,
-            '课程': course,
-            '教师': teacher,
-            '班主任': is_class_teacher
+            'period': period,
+            'course': course,
+            'teacher': teacher,
+            'is_class_teacher': is_class_teacher
         }
     
     @staticmethod
@@ -186,7 +193,7 @@ class CSVParser:
         )
         
         return {
-            '班级数': total_classes,
-            '总课时数': total_periods
+            'total_classes': total_classes,
+            'total_periods': total_periods
         }
 
