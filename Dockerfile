@@ -4,6 +4,16 @@ FROM python:3.9-slim
 # 设置工作目录
 WORKDIR /app
 
+# 配置apt使用阿里云镜像源
+RUN if [ -f /etc/apt/sources.list ]; then \
+        sed -i 's|http://deb.debian.org|http://mirrors.aliyun.com|g' /etc/apt/sources.list && \
+        sed -i 's|https://deb.debian.org|https://mirrors.aliyun.com|g' /etc/apt/sources.list; \
+    fi && \
+    if [ -f /etc/apt/sources.list.d/debian.sources ]; then \
+        sed -i 's|http://deb.debian.org|http://mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources && \
+        sed -i 's|https://deb.debian.org|https://mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources; \
+    fi
+
 # 安装系统依赖（Camelot需要Ghostscript和Tkinter相关库）
 RUN apt-get update && apt-get install -y \
     ghostscript \
