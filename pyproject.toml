@@ -1,0 +1,42 @@
+[project]
+name = "pdf-timetable2json"
+version = "0.1.0"
+description = "A system to parse timetable PDFs and return JSON data via API"
+requires-python = ">=3.9"
+dependencies = [
+    "flask>=3.1.2",
+    "pydantic>=2.12.5",
+    "werkzeug>=3.1.2",
+    "camelot-py>=0.11.0",
+    "pandas>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "black>=24.10.0",
+    "flake8>=7.1.1",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = {find = {}}
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md"]
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
