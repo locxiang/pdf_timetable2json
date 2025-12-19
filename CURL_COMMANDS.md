@@ -24,6 +24,32 @@ curl -X POST http://localhost:5001/api/timetable/parse -F "file=@课表样例.pd
 curl -X POST http://localhost:5001/api/timetable/parse -F "file=@课表样例.pdf" -o response.json
 ```
 
+## PDF转CSV接口
+
+### 下载CSV文件（推荐，直接保存）
+
+```bash
+curl -X POST http://localhost:5001/api/pdf/to-csv -F "file=@课表样例.pdf" -o output_table.csv
+```
+
+### 查看CSV内容（不保存文件）
+
+```bash
+curl -X POST http://localhost:5001/api/pdf/to-csv -F "file=@课表样例.pdf"
+```
+
+### 指定输出文件名
+
+```bash
+curl -X POST http://localhost:5001/api/pdf/to-csv -F "file=@课表样例.pdf" -o "我的课表.csv"
+```
+
+### 显示下载进度
+
+```bash
+curl -X POST http://localhost:5001/api/pdf/to-csv -F "file=@课表样例.pdf" -o output_table.csv --progress-bar
+```
+
 ## 健康检查
 
 ```bash
